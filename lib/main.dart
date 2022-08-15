@@ -1,10 +1,8 @@
+import 'package:mealdash/services/auth.dart';
+import 'package:mealdash/views/home_view.dart';
+import 'package:mealdash/views/login_view.dart';
+import 'package:mealdash/views/register_view.dart';
 import 'package:flutter/material.dart';
-import 'package:helloworld/constants.dart';
-import 'package:helloworld/services/auth.dart';
-import 'package:helloworld/views/home_view.dart';
-import 'package:helloworld/views/login_view.dart';
-import 'package:helloworld/views/register_view.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 void main() {

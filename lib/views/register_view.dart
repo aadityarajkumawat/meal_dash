@@ -1,14 +1,14 @@
 import 'dart:convert';
 
+import 'package:mealdash/constants.dart';
+import 'package:mealdash/services/auth.dart';
+import 'package:mealdash/types/login_response.dart';
+import 'package:mealdash/types/refresh_response.dart';
+import 'package:mealdash/utils/fetch.dart';
+import 'package:mealdash/utils/storage.dart';
+import 'package:mealdash/views/home_view.dart';
+import 'package:mealdash/views/login_view.dart';
 import 'package:flutter/material.dart';
-import 'package:helloworld/constants.dart';
-import 'package:helloworld/services/auth.dart';
-import 'package:helloworld/types/login_response.dart';
-import 'package:helloworld/types/refresh_response.dart';
-import 'package:helloworld/utils/fetch.dart';
-import 'package:helloworld/utils/storage.dart';
-import 'package:helloworld/views/home_view.dart';
-import 'package:helloworld/views/login_view.dart';
 import 'package:provider/provider.dart';
 
 class RegisterView extends StatefulWidget {

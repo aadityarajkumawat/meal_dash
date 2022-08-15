@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:helloworld/constants.dart';
-import 'package:helloworld/services/auth.dart';
-import 'package:helloworld/types/login_response.dart';
-import 'package:helloworld/types/refresh_response.dart';
-import 'package:helloworld/utils/fetch.dart';
-import 'package:helloworld/utils/storage.dart';
-import 'package:helloworld/views/home_view.dart';
-import 'package:helloworld/views/register_view.dart';
+import 'package:mealdash/constants.dart';
+import 'package:mealdash/services/auth.dart';
+import 'package:mealdash/types/login_response.dart';
+import 'package:mealdash/types/refresh_response.dart';
+import 'package:mealdash/utils/fetch.dart';
+import 'package:mealdash/utils/logger.dart';
+import 'package:mealdash/utils/show_toast.dart';
+import 'package:mealdash/utils/storage.dart';
+import 'package:mealdash/views/home_view.dart';
+import 'package:mealdash/views/register_view.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
@@ -82,7 +84,6 @@ class _LoginViewState extends State<LoginView> {
       }
 
       Storage storage = Storage();
-      print('not auth');
 
       Fetch fetch = Fetch();
       Map<String, String> headers = {};
@@ -93,11 +94,17 @@ class _LoginViewState extends State<LoginView> {
 
       var response = await fetch.post(APIUrls.login, headers, jsonEncode(body));
 
-      var lr = LoginResponse.fromJson(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+
+      if (responseBody['error'] != null) {
+        var errorMessage = responseBody['error']['message'];
+        showToast(context, errorMessage, 'error');
+        return;
+      }
+
+      var lr = LoginResponse.fromJson(responseBody);
 
       String? accessToken = lr.result?.data?.token;
-
-      print('accessToken: $accessToken');
 
       if (accessToken != null) {
         // store the access token in local state of app,

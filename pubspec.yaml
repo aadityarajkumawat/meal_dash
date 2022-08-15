@@ -1,4 +1,4 @@
-name: helloworld
+name: 'mealdash'
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -41,6 +41,7 @@ dependencies:
     localstorage: ^4.0.0+1
 
 dev_dependencies:
+    flutter_launcher_icons: '^0.9.2'
     flutter_test:
         sdk: flutter
 
@@ -91,3 +92,8 @@ flutter:
     #
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_icons:
+    android: 'launcher_icon'
+    ios: true
+    image_path: 'assets/meal.png'

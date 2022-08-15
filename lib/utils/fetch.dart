@@ -1,5 +1,5 @@
-import 'package:helloworld/constants.dart';
-import 'package:helloworld/utils/storage.dart';
+import 'package:mealdash/constants.dart';
+import 'package:mealdash/utils/storage.dart';
 import 'package:http/http.dart';
 
 class Fetch {

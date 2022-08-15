@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:helloworld/constants.dart';
-import 'package:helloworld/services/auth.dart';
-import 'package:helloworld/utils/fetch.dart';
-import 'package:helloworld/utils/storage.dart';
-import 'package:helloworld/views/login_view.dart';
+import 'package:mealdash/constants.dart';
+import 'package:mealdash/services/auth.dart';
+import 'package:mealdash/utils/fetch.dart';
+import 'package:mealdash/utils/storage.dart';
+import 'package:mealdash/views/login_view.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 

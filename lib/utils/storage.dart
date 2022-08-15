@@ -1,4 +1,4 @@
-import 'package:helloworld/constants.dart';
+import 'package:mealdash/constants.dart';
 import 'package:localstorage/localstorage.dart';
 
 class Storage {
