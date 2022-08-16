@@ -11,6 +11,8 @@ import 'package:mealdash/utils/show_toast.dart';
 import 'package:mealdash/utils/storage.dart';
 import 'package:mealdash/views/home_view.dart';
 import 'package:mealdash/views/register_view.dart';
+import 'package:mealdash/widgets/button.dart';
+import 'package:mealdash/widgets/input.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
@@ -28,9 +30,6 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
-
-    _email.text = 'user2@mail.com';
-    _password.text = '12345678';
 
     super.initState();
   }
@@ -126,7 +125,7 @@ class _LoginViewState extends State<LoginView> {
         Navigator.pushReplacement(context, route);
       }
     } catch (e) {
-      print('login error: ${e.toString()}');
+      log('login error: ${e.toString()}');
     }
   }
 
@@ -153,66 +152,27 @@ class _LoginViewState extends State<LoginView> {
                       style: TextStyle(fontSize: 25.0),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: SizedBox(
-                      child: TextField(
-                        controller: _email,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'email',
-                          contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                        ),
-                      ),
+                  Input(
+                    inputProps: InputDetails(
+                      hintText: 'email',
+                      textController: _email,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                    child: SizedBox(
-                      child: TextField(
-                        controller: _password,
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        decoration: const InputDecoration(
-                          hintText: 'password',
-                          contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                        ),
-                      ),
+                  Input(
+                    inputProps: InputDetails(
+                      hintText: 'password',
+                      textController: _password,
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      secureInput: true,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
-                    child: ElevatedButton(
-                      onPressed: () => loginUser(context),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                          minimumSize: const Size.fromHeight(50)),
-                      child: const Text('login'),
+                  Button(
+                    buttonProps: ButtonProps(
+                      onPressed: loginUser,
+                      text: 'login',
+                      left: 20,
+                      right: 20,
                     ),
                   ),
                   Padding(

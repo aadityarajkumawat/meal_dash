@@ -9,6 +9,8 @@ import 'package:mealdash/utils/storage.dart';
 import 'package:mealdash/views/home_view.dart';
 import 'package:mealdash/views/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:mealdash/widgets/button.dart';
+import 'package:mealdash/widgets/input.dart';
 import 'package:provider/provider.dart';
 
 class RegisterView extends StatefulWidget {
@@ -120,123 +122,85 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _getRefreshToken(context),
-        builder: ((context, snapshot) {
-          if (snapshot.data == 'register') {
-            return Scaffold(
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(0),
-                child: AppBar(
-                  backgroundColor: Colors.black,
-                ),
+      future: _getRefreshToken(context),
+      builder: ((context, snapshot) {
+        if (snapshot.data == 'register') {
+          return Scaffold(
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: AppBar(
+                backgroundColor: Colors.black,
               ),
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      "register",
-                      style: TextStyle(fontSize: 25.0),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: SizedBox(
-                      child: TextField(
-                        controller: _email,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'email',
-                          contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                    child: SizedBox(
-                      child: TextField(
-                        controller: _password,
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        decoration: const InputDecoration(
-                          hintText: 'password',
-                          contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
-                    child: ElevatedButton(
-                      onPressed: () => registerUser(context),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                          minimumSize: const Size.fromHeight(50)),
-                      child: const Text('register'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: TextButton(
-                      onPressed: () {
-                        var route = MaterialPageRoute(
-                            builder: (context) => const LoginView());
-                        Navigator.pushReplacement(context, route);
-                      },
-                      child: const Text(
-                        'already a user? login',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return Scaffold(
-              backgroundColor: Colors.white,
-              body: Center(
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                  ),
-                  onPressed: null,
-                  child: const CircularProgressIndicator(
-                    color: Colors.black,
-                    strokeWidth: 1.5,
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text(
+                    "register",
+                    style: TextStyle(fontSize: 25.0),
                   ),
                 ),
+                Input(
+                  inputProps: InputDetails(
+                    hintText: 'email',
+                    textController: _email,
+                  ),
+                ),
+                Input(
+                  inputProps: InputDetails(
+                    hintText: 'password',
+                    textController: _password,
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    secureInput: true,
+                  ),
+                ),
+                Button(
+                  buttonProps: ButtonProps(
+                    onPressed: registerUser,
+                    text: 'register',
+                    left: 20,
+                    right: 20,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: TextButton(
+                    onPressed: () {
+                      var route = MaterialPageRoute(
+                          builder: (context) => const LoginView());
+                      Navigator.pushReplacement(context, route);
+                    },
+                    child: const Text(
+                      'already a user? login',
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                ),
+                onPressed: null,
+                child: const CircularProgressIndicator(
+                  color: Colors.black,
+                  strokeWidth: 1.5,
+                ),
               ),
-            );
-          }
-        }));
+            ),
+          );
+        }
+      }),
+    );
   }
 }
