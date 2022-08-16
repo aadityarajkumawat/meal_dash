@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mealdash/constants.dart';
 import 'package:mealdash/services/auth.dart';
 import 'package:mealdash/utils/fetch.dart';
+import 'package:mealdash/utils/logger.dart';
 import 'package:mealdash/utils/storage.dart';
 import 'package:mealdash/views/login_view.dart';
 import 'package:localstorage/localstorage.dart';
@@ -35,7 +36,7 @@ class _AuthDataState extends State<AuthData> {
   }
 
   void loadLocalAuthData(BuildContext context) {
-    print('ok $accessToken and $authenticated');
+    log('ok $accessToken and $authenticated');
     AuthState authState = context.read<Auth>().authState;
     setState(() {
       accessToken = authState.accessToken;
@@ -78,6 +79,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var pageState = 'home';
 
+  void _logout() async {
+    try {
+      Fetch fetch = Fetch();
+
+      setState(() {
+        pageState = 'loading';
+      });
+      await fetch.get(APIUrls.logout, {});
+      setState(() {
+        pageState = 'login';
+      });
+
+      AuthState a = AuthState();
+      a.accessToken = '';
+      a.authenticated = false;
+
+      context.read<Auth>().setAuthenticated(a);
+
+      LocalStorage storage = LocalStorage(localStore);
+      storage.clear();
+
+      var route = MaterialPageRoute(builder: (context) => const LoginView());
+      Navigator.push(context, route);
+    } catch (e) {
+      print("something went wrong!:${e.toString()}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (pageState == 'home') {
@@ -89,60 +118,20 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: Column(
-          children: [
-            const Text('Home Page'),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  Fetch fetch = Fetch();
-
-                  setState(() {
-                    pageState = 'loading';
-                  });
-                  await fetch.get(APIUrls.logout, {});
-                  setState(() {
-                    pageState = 'login';
-                  });
-
-                  AuthState a = AuthState();
-                  a.accessToken = '';
-                  a.authenticated = false;
-
-                  context.read<Auth>().setAuthenticated(a);
-
-                  LocalStorage storage = LocalStorage(localStore);
-                  storage.clear();
-
-                  var route = MaterialPageRoute(
-                      builder: (context) => const LoginView());
-                  Navigator.pushAndRemoveUntil(
-                      context, route, (route) => false);
-                } catch (e) {
-                  print("something went wrong!:${e.toString()}");
-                }
-              },
-              child: const Text('logout'),
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+              child: Text(
+                "Today's Meals",
+                style: TextStyle(fontSize: 20),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                Storage storage = Storage();
-
-                print('localstore: ${await storage.getItem('refreshToken')}');
-                print(
-                    'authState_state: ${context.read<Auth>().authState.authenticated}');
-                print(
-                    'authState_token: ${context.read<Auth>().authState.accessToken}');
-
-                if (!context.read<Auth>().authState.authenticated) {
-                  var route = MaterialPageRoute(
-                      builder: (context) => const LoginView());
-                  Navigator.pushAndRemoveUntil(
-                      context, route, (route) => false);
-                }
-              },
-              child: const Text('localstore'),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Text('Meal name'),
             ),
-            const AuthData(),
           ],
         ),
       );
