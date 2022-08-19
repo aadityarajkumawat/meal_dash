@@ -22,12 +22,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primaryColor: Colors.black),
-      initialRoute: '/login/',
+      initialRoute: 'login',
       routes: {
-        '/login/': (context) => const LoginView(),
-        '/register/': (context) => const RegisterView(),
-        '/home/': (context) => const HomePage(),
-        '/start/': (context) => const StartScreen(),
+        'login': (context) => const LoginView(),
+        'register': (context) => const RegisterView(),
+        'home': (context) => const HomePage(),
+        'start': (context) => const StartScreen(),
       },
     );
   }

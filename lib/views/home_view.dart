@@ -56,7 +56,7 @@ class _AuthDataState extends State<AuthData> {
             if (!authenticated) {
               var route =
                   MaterialPageRoute(builder: (context) => const LoginView());
-              Navigator.pushAndRemoveUntil(context, route, (route) => false);
+              Navigator.push(context, route);
             }
           },
           child: const Text('localstore in component'),
